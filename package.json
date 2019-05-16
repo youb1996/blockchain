@@ -1,8 +1,8 @@
 {
-  "name": "crypto",
+  "name": "cryptoto",
   "version": "1.0.0",
   "description": "",
-  "main": "test.js",
+  "main": "index.js",
   "scripts": {
     "test": "jest --watchAll"
   },
@@ -10,6 +10,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "jest": "^23.6.0"
+    "jest": "^24.8.0"
   }
 }
