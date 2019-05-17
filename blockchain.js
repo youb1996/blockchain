@@ -1,5 +1,5 @@
 const Block = require('./block');
-cryptoHash = require('./creptp-hash');
+cryptoHash = require('./crypto-hash');
 
 class Blockchain {
     constructor() {
@@ -22,20 +22,23 @@ class Blockchain {
         };
 
         for (let i = 1; i < chain.length; i++) {
-            const {timestamp,lastHash,hash, data} = chain[i];
-            const actualLastHash = chain[i-1].hash;
+            const { timestamp, lastHash, hash, nonce, difficulty, data } = chain[i];
+            const actualLastHash = chain[i - 1].hash;
+            const lastDifficulty = chain[i - 1].difficulty;
 
-            if (lastHash !== actualLastHash) return false ;
+            if (lastHash !== actualLastHash) return false;
 
-            const validatedHash = cryptoHash(timestamp, lastHash, data);
-            
-            if (hash!==validatedHash)return false;
+            const validatedHash = cryptoHash(timestamp, lastHash, data, nonce, difficulty);
+
+            if (hash !== validatedHash) return false;
+
+            if (Math.abs(lastDifficulty - difficulty) > 1) return false;
         }
         return true;
     }
 
-    replaceChain(chain){
-        if(chain.length<= this.chain.length){
+    replaceChain(chain) {
+        if (chain.length <= this.chain.length) {
             console.error('The incoming chain must be longer')
             return;
         }
@@ -43,8 +46,9 @@ class Blockchain {
             console.error('The incoming chain must be valid')
             return;
         }
-        console.log('repmacing chain with', chain)
-        this.chain=chain;
+        //console.log('repmacing chain with', chain)
+        //console.log('repmacing chain with')
+        this.chain = chain;
     }
 
 }

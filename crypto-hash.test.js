@@ -1,4 +1,4 @@
-const cryptoHash = require('./creptp-hash');
+const cryptoHash = require('./crypto-hash');
 
 
 describe('cryptoHash()', () => {
