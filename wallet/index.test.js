@@ -1,24 +1,26 @@
 const Wallet = require('./index.js');
+const Transaction = require('./transaction')
 const { verifySignature } = require('../util')
 
-describe('Wallet',()=>{
+
+describe('Wallet', () => {
     let wallet;
-    beforeEach(()=>{
+    beforeEach(() => {
         wallet = new Wallet();
     });
 
-    it('has a balance',()=>{
+    it('has a balance', () => {
         expect(wallet).toHaveProperty('balance');
     });
 
-    it('has a publicKey',()=>{
+    it('has a publicKey', () => {
         expect(wallet).toHaveProperty('publicKey');
     });
 
-    describe('signing data', ()=>{
+    describe('signing data', () => {
         const data = 'foobar';
 
-        it('verifies a signature',()=>{
+        it('verifies a signature', () => {
             expect(
                 verifySignature({
                     publicKey: wallet.publicKey,
@@ -26,13 +28,13 @@ describe('Wallet',()=>{
                     signature: wallet.sign(data)
                 })
             ).toBe(true)
-            
+
         });
 
-        it('does not verify an invalid signature',()=>{
+        it('does not verify an invalid signature', () => {
             expect(
                 verifySignature({
-                    publicKey:new Wallet().publicKey,
+                    publicKey: new Wallet().publicKey,
                     data,
                     signature: wallet.sign(data)
                 })
@@ -40,4 +42,34 @@ describe('Wallet',()=>{
         });
     });
 
+    describe('createTransaction()', () => {
+
+        describe('and the amount exceeds the blance', () => {
+            it('throws an error', () => {
+                expect(() => wallet.createTransaction({ amount: 9999999, recipient: 'foo-recipient' })).toThrow('Amount exceeds balance');
+            });
+        });
+
+        describe('and the amount is valid', () => {
+            let transaction, amount, recipient;
+
+            beforeEach(() => {
+                amount = 50;
+                recipient = 'foo-recipient';
+                transaction = wallet.createTransaction({ amount, recipient });
+            });
+
+            it('creates an anstence of Transaction', () => {
+                expect(transaction instanceof Transaction).toBe(true);
+            });
+
+            it('matches the transaction input with the wallet', () => {
+                expect(transaction.input.address).toEqual(wallet.publicKey);
+            });
+
+            it('outputs the amount the recipient', () => {
+                expect(transaction.outputMap[recipient]).toEqual(amount);
+            });
+        });
+    });
 })
