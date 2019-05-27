@@ -6,12 +6,12 @@
   "scripts": {
     "test": "jest --watchAll",
     "start": "npm run cli && node index.js",
-    "dev": "npm run clean && npm run dev-cli & nodemon index.js",
+    "dev": "npm run dev-cli & npm run start-redis && nodemon index.js",
     "dev-peer": "cross-env GENERATE_PEER_PORT='true' ENV='development' nodemon index.js",
     "start-redis": "redis-server --daemonize yes",
     "cli": "npm run clean && parcel build client/src/index.html --out-dir client/dist",
-    "dev-cli": "parcel client/src/index.html --out-dir client/dist",
-    "clean": ""
+    "dev-cli": "npm run clean && parcel client/src/index.html --out-dir client/dist",
+    "clean": "rm -rf .cache client/dist"
   },
   "jest": {
     "testEnvironment": "node"
@@ -25,6 +25,11 @@
     "nodemon": "^1.19.0"
   },
   "dependencies": {
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
     "body-parser": "^1.19.0",
     "elliptic": "^6.4.1",
     "express": "^4.16.4",
