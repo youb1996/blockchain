@@ -23,7 +23,7 @@ const ROOT_NODE_ADDRESS = `http://localhost:${DEFAULT_PORT}`;
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
-app.use(express.static(path.join(__dirname,'client/dist')))
+app.use(express.static(path.join(__dirname, 'client/dist')))
 
 app.get('/api/blocks', (req, res) => {
    res.json(blockchain.chain);
@@ -70,17 +70,17 @@ app.get('/api/mine-transactions', (req, res) => {
    res.redirect('/api/blocks')
 })
 
-app.get('/api/wallet-info', (req, res) => { 
+app.get('/api/wallet-info', (req, res) => {
    const address = wallet.publicKey;
 
    res.json({
       address,
-      balance: Wallet.calculateBalance({chain: blockchain.chain, address})
+      balance: Wallet.calculateBalance({ chain: blockchain.chain, address })
    })
 })
 
-app.get('*',(req,res)=>{
-   res.sendFile(path.join(__dirname,'client/dist/index.html'));
+app.get('*', (req, res) => {
+   res.sendFile(path.join(__dirname, 'client/dist/index.html'));
 })
 
 const syncWithRootState = () => {
@@ -101,6 +101,47 @@ const syncWithRootState = () => {
    })
 
 }
+
+const walletFoo = new Wallet();
+const walletBar = new Wallet();
+
+const generateWalletTransaction = ({ wallet, recipient, amount }) => {
+   const transaction = wallet.createTransaction({
+      recipient, amount, chain: blockchain.chain
+   })
+
+   transactionPool.setTransaction(transaction);
+}
+
+const walletActtion = () => generateWalletTransaction({
+   wallet, recipient: walletBar.publicKey, amount: 5
+})
+
+const walletFooActtion = () => generateWalletTransaction({
+   wallet: walletFoo, recipient: walletBar.publicKey, amount: 10
+})
+
+const walletBarActtion = () => generateWalletTransaction({
+   wallet: walletBar, recipient: wallet.publicKey, amount: 15
+})
+
+
+for (let i = 0; i < 10; i++) {
+   if (i % 3 === 0) {
+      walletActtion();
+      walletFooActtion();
+   } else if (i % 3 === 1) {
+      walletActtion();
+      walletBarActtion();
+   } else {
+      walletFooActtion();
+      walletBarActtion();
+   }
+
+   transactionMiner.mineTransaction();
+
+}
+
 
 let PEER_PORT;
 

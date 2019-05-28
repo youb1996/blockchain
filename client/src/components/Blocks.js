@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Block from './Block'
 
 
 class Blocks extends Component {
@@ -15,7 +16,9 @@ class Blocks extends Component {
                 <h3>Blocks</h3>
                 {this.state.blocks.map(block=>{
                     return(
-                        <div key={block.hash}>{block.hash}</div>
+                        
+                        <Block key={block.hash} block={block}></Block>
+                        
                     );
                 })}
             </div>
@@ -23,4 +26,4 @@ class Blocks extends Component {
     }
 }
 
-export default Blocks
+export default Blocks;
