@@ -13,7 +13,7 @@ const isDevelopment = process.env.ENV === 'development';
 
 const DEFAULT_PORT = 3000;
 const ROOT_NODE_ADDRESS = `http://localhost:${DEFAULT_PORT}`;
-const REDIS_URL = isDevelopment ? 'redis://127.0.0.1:6379' : 'redis://h:pbe461b54654f325eb0c34744bde082f840a4d56078b731b6e385cb0f80693c1a@ec2-18-213-99-131.compute-1.amazonaws.com:24679'
+const REDIS_URL = isDevelopment ? 'redis://127.0.0.1:6379' : 'redis://h:p4b51585c4fa7fdb155d50d8e4f5454a8e075a39406687b9f286e5e78f5784e6c@ec2-18-213-99-131.compute-1.amazonaws.com:29759';
 
 
 const app = express()
