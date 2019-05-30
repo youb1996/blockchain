@@ -5,6 +5,8 @@
 //
 // anything defined in a previous bundle is accessed via the
 // orig method which is the require for previous bundles
+
+// eslint-disable-next-line no-global-assign
 parcelRequire = (function (modules, cache, entry, globalName) {
   // Save the require from previous bundle to this closure if any
   var previousRequire = typeof parcelRequire === 'function' && parcelRequire;
@@ -75,16 +77,8 @@ parcelRequire = (function (modules, cache, entry, globalName) {
     }, {}];
   };
 
-  var error;
   for (var i = 0; i < entry.length; i++) {
-    try {
-      newRequire(entry[i]);
-    } catch (e) {
-      // Save first error but execute all entries
-      if (!error) {
-        error = e;
-      }
-    }
+    newRequire(entry[i]);
   }
 
   if (entry.length) {
@@ -109,13 +103,6 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   // Override the current require with this new one
-  parcelRequire = newRequire;
-
-  if (error) {
-    // throw error from earlier, _after updating parcelRequire_
-    throw error;
-  }
-
   return newRequire;
 })({"../../node_modules/object-assign/index.js":[function(require,module,exports) {
 /*
@@ -29834,8 +29821,8 @@ function (_Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      fetch("".concat(document.location.origin, "/api/wallet-info")).then(function (res) {
-        return res.json();
+      fetch("".concat(document.location.origin, "/api/wallet-info")).then(function (response) {
+        return response.json();
       }).then(function (json) {
         return _this2.setState({
           walletInfo: json
@@ -29853,7 +29840,7 @@ function (_Component) {
       }, _react.default.createElement("img", {
         className: "logo",
         src: _logo.default
-      }), _react.default.createElement("br", null), _react.default.createElement("div", null, "welcome to the blockchen ..."), _react.default.createElement("br", null), _react.default.createElement("div", null, _react.default.createElement(_reactRouterDom.Link, {
+      }), _react.default.createElement("br", null), _react.default.createElement("div", null, "Welcome to the blockchain..."), _react.default.createElement("br", null), _react.default.createElement("div", null, _react.default.createElement(_reactRouterDom.Link, {
         to: "/blocks"
       }, "Blocks")), _react.default.createElement("div", null, _react.default.createElement(_reactRouterDom.Link, {
         to: "/conduct-transaction"
@@ -45231,14 +45218,14 @@ function (_Component) {
       var hashDisplay = "".concat(hash.substring(0, 15), "...");
       return _react.default.createElement("div", {
         className: "Block"
-      }, _react.default.createElement("div", null, "Hash: ", hashDisplay), _react.default.createElement("div", null, "timestamp: ", new Date(timestamp).toLocaleString()), this.displayTransaction);
+      }, _react.default.createElement("div", null, "Hash: ", hashDisplay), _react.default.createElement("div", null, "Timestamp: ", new Date(timestamp).toLocaleString()), this.displayTransaction);
     }
   }, {
     key: "displayTransaction",
     get: function get() {
       var data = this.props.block.data;
       var stringifiedData = JSON.stringify(data);
-      var dataDisplay = stringifiedData.length > 15 ? "".concat(stringifiedData.substring(0, 35), "...") : stringifiedData;
+      var dataDisplay = stringifiedData.length > 35 ? "".concat(stringifiedData.substring(0, 35), "...") : stringifiedData;
 
       if (this.state.displayTransaction) {
         return _react.default.createElement("div", null, data.map(function (transaction) {
@@ -45248,23 +45235,24 @@ function (_Component) {
             transaction: transaction
           }));
         }), _react.default.createElement("br", null), _react.default.createElement(_reactBootstrap.Button, {
-          bsStyle: "aleway",
+          bsStyle: "danger",
           bsSize: "small",
           onClick: this.toggleTransaction
-        }, " Show Less"));
+        }, "Show Less"));
       }
 
-      return _react.default.createElement("div", null, _react.default.createElement("div", null, "Data : ", dataDisplay), _react.default.createElement(_reactBootstrap.Button, {
+      return _react.default.createElement("div", null, _react.default.createElement("div", null, "Data: ", dataDisplay), _react.default.createElement(_reactBootstrap.Button, {
         bsStyle: "danger",
         bsSize: "small",
         onClick: this.toggleTransaction
-      }, " Show More"));
+      }, "Show More"));
     }
   }]);
 
   return Block;
 }(_react.Component);
 
+;
 var _default = Block;
 exports.default = _default;
 },{"react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/es/index.js","./Transaction":"components/Transaction.js"}],"components/Blocks.js":[function(require,module,exports) {
@@ -45277,6 +45265,8 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
+var _reactBootstrap = require("react-bootstrap");
+
 var _reactRouterDom = require("react-router-dom");
 
 var _Block = _interopRequireDefault(require("./Block"));
@@ -45286,6 +45276,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -45322,7 +45320,19 @@ function (_Component) {
     }
 
     return _possibleConstructorReturn(_this, (_temp = _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(Blocks)).call.apply(_getPrototypeOf2, [this].concat(args))), _this.state = {
-      blocks: []
+      blocks: [],
+      paginatedId: 1,
+      blocksLength: 0
+    }, _this.fetchPaginatedBlocks = function (paginatedId) {
+      return function () {
+        fetch("".concat(document.location.origin, "/api/blocks/").concat(paginatedId)).then(function (response) {
+          return response.json();
+        }).then(function (json) {
+          return _this.setState({
+            blocks: json
+          });
+        });
+      };
     }, _temp));
   }
 
@@ -45331,20 +45341,33 @@ function (_Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      fetch("".concat(document.location.origin, "/api/blocks")).then(function (res) {
-        return res.json();
+      fetch("".concat(document.location.origin, "/api/blocks/length")).then(function (response) {
+        return response.json();
       }).then(function (json) {
         return _this2.setState({
-          blocks: json
+          blocksLength: json
         });
       });
+      this.fetchPaginatedBlocks(this.state.paginatedId)();
     }
   }, {
     key: "render",
     value: function render() {
+      var _this3 = this;
+
+      console.log('this.state', this.state);
       return _react.default.createElement("div", null, _react.default.createElement("div", null, _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
-      }, "Home")), _react.default.createElement("h3", null, "Blocks"), this.state.blocks.map(function (block) {
+      }, "Home")), _react.default.createElement("h3", null, "Blocks"), _react.default.createElement("div", null, _toConsumableArray(Array(Math.ceil(this.state.blocksLength / 5)).keys()).map(function (key) {
+        var paginatedId = key + 1;
+        return _react.default.createElement("span", {
+          key: key,
+          onClick: _this3.fetchPaginatedBlocks(paginatedId)
+        }, _react.default.createElement(_reactBootstrap.Button, {
+          bsSize: "small",
+          bsStyle: "danger"
+        }, paginatedId), ' ');
+      })), this.state.blocks.map(function (block) {
         return _react.default.createElement(_Block.default, {
           key: block.hash,
           block: block
@@ -45358,7 +45381,7 @@ function (_Component) {
 
 var _default = Blocks;
 exports.default = _default;
-},{"react":"../../node_modules/react/index.js","react-router-dom":"../../node_modules/react-router-dom/esm/react-router-dom.js","./Block":"components/Block.js"}],"components/ConductTransaction.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/es/index.js","react-router-dom":"../../node_modules/react-router-dom/esm/react-router-dom.js","./Block":"components/Block.js"}],"components/ConductTransaction.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -45368,9 +45391,9 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _reactRouterDom = require("react-router-dom");
-
 var _reactBootstrap = require("react-bootstrap");
+
+var _reactRouterDom = require("react-router-dom");
 
 var _history = _interopRequireDefault(require("../history"));
 
@@ -45416,7 +45439,8 @@ function (_Component) {
 
     return _possibleConstructorReturn(_this, (_temp = _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(ConductTransaction)).call.apply(_getPrototypeOf2, [this].concat(args))), _this.state = {
       recipient: '',
-      amount: 0
+      amount: 0,
+      knownAddresses: []
     }, _this.updateRecipient = function (event) {
       _this.setState({
         recipient: event.target.value
@@ -45438,8 +45462,8 @@ function (_Component) {
           recipient: recipient,
           amount: amount
         })
-      }).then(function (res) {
-        return res.json();
+      }).then(function (response) {
+        return response.json();
       }).then(function (json) {
         alert(json.message || json.type);
 
@@ -45449,13 +45473,30 @@ function (_Component) {
   }
 
   _createClass(ConductTransaction, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      fetch("".concat(document.location.origin, "/api/known-addresses")).then(function (response) {
+        return response.json();
+      }).then(function (json) {
+        return _this2.setState({
+          knownAddresses: json
+        });
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       return _react.default.createElement("div", {
         className: "ConductTransaction"
       }, _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
-      }, "Home"), _react.default.createElement("h3", null, "Conduct a Transaction"), _react.default.createElement(_reactBootstrap.FormGroup, null, _react.default.createElement(_reactBootstrap.FormControl, {
+      }, "Home"), _react.default.createElement("h3", null, "Conduct a Transaction"), _react.default.createElement("br", null), _react.default.createElement("h4", null, "Known Addresses"), this.state.knownAddresses.map(function (knownAddress) {
+        return _react.default.createElement("div", {
+          key: knownAddress
+        }, _react.default.createElement("div", null, knownAddress), _react.default.createElement("br", null));
+      }), _react.default.createElement("br", null), _react.default.createElement(_reactBootstrap.FormGroup, null, _react.default.createElement(_reactBootstrap.FormControl, {
         input: "text",
         placeholder: "recipient",
         value: this.state.recipient,
@@ -45468,16 +45509,17 @@ function (_Component) {
       })), _react.default.createElement("div", null, _react.default.createElement(_reactBootstrap.Button, {
         bsStyle: "danger",
         onClick: this.conductTransaction
-      }, " Submit ")));
+      }, "Submit")));
     }
   }]);
 
   return ConductTransaction;
 }(_react.Component);
 
+;
 var _default = ConductTransaction;
 exports.default = _default;
-},{"react":"../../node_modules/react/index.js","react-router-dom":"../../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap":"../../node_modules/react-bootstrap/es/index.js","../history":"history.js"}],"components/TransactionPool.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/es/index.js","react-router-dom":"../../node_modules/react-router-dom/esm/react-router-dom.js","../history":"history.js"}],"components/TransactionPool.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -45616,7 +45658,7 @@ function getBundleURL() {
   try {
     throw new Error();
   } catch (err) {
-    var matches = ('' + err.stack).match(/(https?|file|ftp|chrome-extension|moz-extension):\/\/[^)\n]+/g);
+    var matches = ('' + err.stack).match(/(https?|file|ftp):\/\/[^)\n]+/g);
 
     if (matches) {
       return getBaseURL(matches[0]);
@@ -45627,7 +45669,7 @@ function getBundleURL() {
 }
 
 function getBaseURL(url) {
-  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)\/[^/]+$/, '$1') + '/';
+  return ('' + url).replace(/^((?:https?|file|ftp):\/\/.+)\/[^/]+$/, '$1') + '/';
 }
 
 exports.getBundleURL = getBundleURLCached;
@@ -45733,46 +45775,26 @@ function Module(moduleName) {
 }
 
 module.bundle.Module = Module;
-var checkedAssets, assetsToAccept;
 var parent = module.bundle.parent;
 
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "33391" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "38681" + '/');
 
   ws.onmessage = function (event) {
-    checkedAssets = {};
-    assetsToAccept = [];
     var data = JSON.parse(event.data);
 
     if (data.type === 'update') {
-      var handled = false;
+      console.clear();
+      data.assets.forEach(function (asset) {
+        hmrApply(global.parcelRequire, asset);
+      });
       data.assets.forEach(function (asset) {
         if (!asset.isNew) {
-          var didAccept = hmrAcceptCheck(global.parcelRequire, asset.id);
-
-          if (didAccept) {
-            handled = true;
-          }
+          hmrAccept(global.parcelRequire, asset.id);
         }
-      }); // Enable HMR for CSS by default.
-
-      handled = handled || data.assets.every(function (asset) {
-        return asset.type === 'css' && asset.generated.js;
       });
-
-      if (handled) {
-        console.clear();
-        data.assets.forEach(function (asset) {
-          hmrApply(global.parcelRequire, asset);
-        });
-        assetsToAccept.forEach(function (v) {
-          hmrAcceptRun(v[0], v[1]);
-        });
-      } else {
-        window.location.reload();
-      }
     }
 
     if (data.type === 'reload') {
@@ -45860,7 +45882,7 @@ function hmrApply(bundle, asset) {
   }
 }
 
-function hmrAcceptCheck(bundle, id) {
+function hmrAccept(bundle, id) {
   var modules = bundle.modules;
 
   if (!modules) {
@@ -45868,27 +45890,9 @@ function hmrAcceptCheck(bundle, id) {
   }
 
   if (!modules[id] && bundle.parent) {
-    return hmrAcceptCheck(bundle.parent, id);
+    return hmrAccept(bundle.parent, id);
   }
 
-  if (checkedAssets[id]) {
-    return;
-  }
-
-  checkedAssets[id] = true;
-  var cached = bundle.cache[id];
-  assetsToAccept.push([bundle, id]);
-
-  if (cached && cached.hot && cached.hot._acceptCallbacks.length) {
-    return true;
-  }
-
-  return getParents(global.parcelRequire, id).some(function (id) {
-    return hmrAcceptCheck(global.parcelRequire, id);
-  });
-}
-
-function hmrAcceptRun(bundle, id) {
   var cached = bundle.cache[id];
   bundle.hotData = {};
 
@@ -45913,6 +45917,10 @@ function hmrAcceptRun(bundle, id) {
 
     return true;
   }
+
+  return getParents(global.parcelRequire, id).some(function (id) {
+    return hmrAccept(global.parcelRequire, id);
+  });
 }
 },{}]},{},["../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.js"], null)
-//# sourceMappingURL=/src.e31bb0bc.js.map
+//# sourceMappingURL=/src.e31bb0bc.map
