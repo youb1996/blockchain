@@ -1,3 +1,6 @@
-node_modules
-.cache
-client/dist
+*node_modules*
+*dist*
+*.cache*
+*.cache*
+*dist*
+*secrets*
