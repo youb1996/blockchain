@@ -14,7 +14,9 @@ const REDIS_URL = isDevelopment ?
   'redis://127.0.0.1:6379' :
   'redis://h:p4b51585c4fa7fdb155d50d8e4f5454a8e075a39406687b9f286e5e78f5784e6c@ec2-18-213-99-131.compute-1.amazonaws.com:29759'
 const DEFAULT_PORT = 3000;
-const ROOT_NODE_ADDRESS = `http://localhost:${DEFAULT_PORT}`;
+const ROOT_NODE_ADDRESS = isDevelopment ?
+  `https://stormy-bastion-73898.herokuapp.com/` :
+  `http://localhost:${DEFAULT_PORT}`;
 
 const app = express();
 const blockchain = new Blockchain();
@@ -41,7 +43,7 @@ app.get('/api/blocks/:id', (req, res) => {
 
   const blocksReversed = blockchain.chain.slice().reverse();
 
-  let startIndex = (id-1) * 5;
+  let startIndex = (id - 1) * 5;
   let endIndex = id * 5;
 
   startIndex = startIndex < length ? startIndex : length;
@@ -76,7 +78,7 @@ app.post('/api/transact', (req, res) => {
         chain: blockchain.chain
       });
     }
-  } catch(error) {
+  } catch (error) {
     return res.status(400).json({ type: 'error', message: error.message });
   }
 
@@ -168,11 +170,11 @@ if (isDevelopment) {
     wallet: walletBar, recipient: wallet.publicKey, amount: 15
   });
 
-  for (let i=0; i<20; i++) {
-    if (i%3 === 0) {
+  for (let i = 0; i < 20; i++) {
+    if (i % 3 === 0) {
       walletAction();
       walletFooAction();
-    } else if (i%3 === 1) {
+    } else if (i % 3 === 1) {
       walletAction();
       walletBarAction();
     } else {
