@@ -31,7 +31,7 @@ class Block extends Component {
                     }
                     <br />
                     <Button
-                        bsStyle="danger"
+                        bsStyle="aleway"
                         bsSize="small"
                         onClick={this.toggleTransaction}
                     > Show Less</Button>
