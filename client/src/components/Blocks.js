@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import Block from './Block';
+import AppBar from './AppBar';
 
 class Blocks extends Component {
   state = { blocks: [], paginatedId: 1, blocksLength: 0 };
@@ -24,8 +24,9 @@ class Blocks extends Component {
     console.log('this.state', this.state);
       
     return (
+      
       <div>
-        <div><Link to='/'>Home</Link></div>
+        <AppBar/>
         <h3>Blocks</h3>
         <div>
           {

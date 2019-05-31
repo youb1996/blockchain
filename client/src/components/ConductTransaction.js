@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { FormGroup, FormControl, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import AppBar from './AppBar';
 import history from '../history';
 
 class ConductTransaction extends Component {
@@ -37,6 +38,7 @@ class ConductTransaction extends Component {
   render() {
     return (
       <div className='ConductTransaction'>
+        <AppBar/>
         <Link to='/'>Home</Link>
         <h3>Conduct a Transaction</h3>
         <br />
