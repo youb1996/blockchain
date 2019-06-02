@@ -22,7 +22,7 @@ class App extends Component {
         <img className='logo' src={logo}></img>
         <br />
         <div>
-          Welcome to the blockchain...
+          Welcome to the SupBanK...
         </div>
         <br />
         
